@@ -20,6 +20,8 @@ A premium, WebGL-powered text and DOM element burning effect. This project featu
 
 ## Installation
 Simply open `index.html` in your browser. No server required for basic functionality, though some browser features might require a local dev server (like Live Server extension).
-
+## Thanks to CodePen Home
+Burning ‍🔥 DOM element with WebGL by Ksenia Kondrashova
+https://codepen.io/ksenia-k/pen/yLQLyZa
 ---
 *Created with focus on visual excellence and premium aesthetics.*
