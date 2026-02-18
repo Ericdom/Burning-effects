@@ -10,8 +10,8 @@ A premium, WebGL-powered text and DOM element burning effect. This project featu
 - **Persistent State**: The burning progress is saved using `localStorage`.
 
 ## Examples
-![Burning Image 1](index/burn.png)
-![Burning Image 2](index/brn.png)
+![Burning Image 1](1s.png)
+![Burning Image 2](2s.png)
 
 ## Tech Stack
 - HTML5 / Vanilla JavaScript
