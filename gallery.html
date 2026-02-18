@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Burning Text Effect</title>
+    <style>
+        :root {
+            --primary-glow: #ff4d00;
+        }
+
+        body {
+            margin: 0;
+            background: #000;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            color: white;
+            min-height: 100vh;
+        }
+
+        /* Navbar Styles (Synced with index.html) */
+        nav {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-link {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-link.active {
+            background: rgba(255, 77, 0, 0.1);
+            border-color: #ff4d00;
+            color: #ffca28;
+        }
+
+        .container {
+            padding: 100px 40px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            background: linear-gradient(to right, #ffca28, #ff4d00);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 25px;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 77, 0, 0.1);
+            border-color: rgba(255, 77, 0, 0.3);
+        }
+
+        .glass-card h3 {
+            margin-top: 0;
+            color: #ffca28;
+        }
+
+        .glass-card p {
+            line-height: 1.6;
+            opacity: 0.8;
+            font-size: 0.95rem;
+        }
+
+        .glass-card.image-card {
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .glass-card.image-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-card.image-card .card-content {
+            padding: 20px;
+        }
+
+        .status-tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #ff4d00;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .card-footer {
+            margin-top: 20px;
+            font-size: 0.8rem;
+            opacity: 0.5;
+        }
+
+        #gallery-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 200;
+        }
+
+        .glass-card.is-burning {
+            opacity: 0 !important;
+            pointer-events: none;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+
+<body>
+    <nav>
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="gallery.html" class="nav-link active">Gallery</a>
+    </nav>
+
+    <div class="container">
+        <h1>Recent Ashes</h1>
+        <div class="gallery-grid">
+            <div class="glass-card image-card">
+                <img src="index/burn.png" alt="Burn 1">
+                <div class="card-content">
+                    <span class="status-tag">Burned</span>
+                    <h3>Memory Flare</h3>
+                    <div class="card-footer">February 18, 2026</div>
+                </div>
+            </div>
+            <div class="glass-card image-card">
+                <img src="index/brn.png" alt="Burn 2">
+                <div class="card-content">
+                    <span class="status-tag">Burned</span>
+                    <h3>Visual Release</h3>
+                    <div class="card-footer">February 18, 2026</div>
+                </div>
+            </div>
+            <div class="glass-card">
+                <span class="status-tag">Burned</span>
+                <h3>Work Stress</h3>
+                <p>The project deadline was looming over me like a shadow. I wrote it down, watched the fire take it,
+                    and now I feel lighter.</p>
+                <div class="card-footer">February 18, 2026</div>
+            </div>
+            <div class="glass-card">
+                <span class="status-tag">Burned</span>
+                <h3>Anxiety about Travel</h3>
+                <p>Worried about the long flight and the unfamiliar city. The burning ritual helped me realize that
+                    worry won't change the destination.</p>
+                <div class="card-footer">February 17, 2026</div>
+            </div>
+            <div class="glass-card">
+                <span class="status-tag">Burned</span>
+                <h3>Social Fear</h3>
+                <p>Replayed that awkward conversation a hundred times. No more. It's ash now.</p>
+                <div class="card-footer">February 16, 2026</div>
+            </div>
+            <div class="glass-card">
+                <span class="status-tag">Ready</span>
+                <h3>Unspoken Words</h3>
+                <p>Things I should have said but didn't. Maybe it's better they stay here until I'm ready to let them
+                    go.</p>
+                <div class="card-footer">February 15, 2026</div>
+            </div>
+        </div>
+    </div>
+
+    <canvas id="gallery-canvas"></canvas>
+
+    <script id="vs" type="x-shader/x-vertex">
+        attribute vec2 position;
+        varying vec2 vUv;
+        void main() {
+            vUv = (position + 1.0) / 2.0;
+            // WebGL Y is bottom-to-top, but textures from canvas are top-to-bottom
+            vUv.y = 1.0 - vUv.y;
+            gl_Position = vec4(position, 0.0, 1.0);
+        }
+    </script>
+
+    <script id="fs" type="x-shader/x-fragment">
+        precision highp float;
+        uniform sampler2D uTexture;
+        uniform float uProgress;
+        uniform float uSeed;
+        uniform vec2 uCardSize;
+        uniform vec2 uCardPos;
+        uniform vec2 uResolution;
+        varying vec2 vUv;
+
+        float hash(vec2 p) {
+            return fract(sin(dot(p + uSeed, vec2(12.9898, 78.233))) * 43758.5453);
+        }
+
+        float noise(vec2 p) {
+            vec2 i = floor(p);
+            vec2 f = fract(p);
+            f = f * f * (3.0 - 2.0 * f);
+            float a = hash(i);
+            float b = hash(i + vec2(1.0, 0.0));
+            float c = hash(i + vec2(0.0, 1.0));
+            float d = hash(i + vec2(1.0, 1.0));
+            return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+        }
+
+        float fbm(vec2 p) {
+            float v = 0.0;
+            float a = 0.5;
+            for (int i = 0; i < 4; i++) {
+                v += a * noise(p);
+                p *= 2.0;
+                a *= 0.5;
+            }
+            return v;
+        }
+
+        void main() {
+            vec2 screenUv = gl_FragCoord.xy / uResolution;
+            // gl_FragCoord is bottom-to-top
+            float pixelX = gl_FragCoord.x;
+            float pixelY = uResolution.y - gl_FragCoord.y;
+
+            // Check if we're inside the card area
+            vec2 cardMin = uCardPos - uCardSize / 2.0;
+            vec2 cardMax = uCardPos + uCardSize / 2.0;
+
+            if (pixelX < cardMin.x || pixelX > cardMax.x || pixelY < cardMin.y || pixelY > cardMax.y) {
+                discard;
+            }
+
+            // Calculate texture UV relative to card
+            vec2 textureUv = (vec2(pixelX, pixelY) - cardMin) / uCardSize;
+            vec4 texColor = texture2D(uTexture, textureUv);
+
+            // Burning logic
+            float n = fbm(textureUv * 5.0);
+            
+            // Progress goes from 0 to 1
+            // We want it to dissolve based on noise
+            float burnThreshold = uProgress * 1.5; // Scale to ensure complete burn
+            
+            if (n < burnThreshold - 0.1) {
+                discard;
+            }
+
+            // Glow edge
+            float edge = smoothstep(burnThreshold - 0.1, burnThreshold, n);
+            vec3 fireColor = mix(vec3(1.5, 0.4, 0.1), vec3(1.0, 0.8, 0.2), edge);
+            
+            if (n < burnThreshold) {
+                gl_FragColor = vec4(fireColor, 1.0);
+            } else {
+                // Ensure we respect the original texture's alpha
+                gl_FragColor = texColor;
+            }
+        }
+    </script>
+
+    <script>
+        const canvas = document.getElementById('gallery-canvas');
+        const gl = canvas.getContext('webgl', { alpha: true, premultipliedAlpha: false });
+
+        // Enable blending for transparency
+        gl.enable(gl.BLEND);
+        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+        let currentCard = null;
+        let progress = 0;
+        let isBurning = false;
+        let texture = null;
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            gl.viewport(0, 0, canvas.width, canvas.height);
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // Shader setup... (similar to index.html but modified for gallery)
+        function createShader(gl, type, source) {
+            const shader = gl.createShader(type);
+            gl.shaderSource(shader, source);
+            gl.compileShader(shader);
+            return shader;
+        }
+
+        const vs = createShader(gl, gl.VERTEX_SHADER, document.getElementById('vs').text);
+        const fs = createShader(gl, gl.FRAGMENT_SHADER, document.getElementById('fs').text);
+        const program = gl.createProgram();
+        gl.attachShader(program, vs);
+        gl.attachShader(program, fs);
+        gl.linkProgram(program);
+        gl.useProgram(program);
+
+        const vertices = new Float32Array([-1, -1, 1, -1, -1, 1, 1, -1, -1, 1, 1, 1]);
+        const buffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+        gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+
+        const posAttrib = gl.getAttribLocation(program, 'position');
+        gl.enableVertexAttribArray(posAttrib);
+        gl.vertexAttribPointer(posAttrib, 2, gl.FLOAT, false, 0, 0);
+
+        const uTexture = gl.getUniformLocation(program, 'uTexture');
+        const uProgress = gl.getUniformLocation(program, 'uProgress');
+        const uSeed = gl.getUniformLocation(program, 'uSeed');
+        const uCardSize = gl.getUniformLocation(program, 'uCardSize');
+        const uCardPos = gl.getUniformLocation(program, 'uCardPos');
+        const uResolution = gl.getUniformLocation(program, 'uResolution');
+
+        function burnCard(cardElement) {
+            if (isBurning) return;
+
+            html2canvas(cardElement, {
+                backgroundColor: null,
+                logging: false,
+                useCORS: true
+            }).then(cardCanvas => {
+                isBurning = true;
+                progress = 0;
+                currentCard = cardElement;
+
+                // Create texture
+                if (texture) gl.deleteTexture(texture);
+                texture = gl.createTexture();
+                gl.bindTexture(gl.TEXTURE_2D, texture);
+                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, cardCanvas);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+
+                // Get card position
+                const rect = cardElement.getBoundingClientRect();
+                gl.uniform2f(uCardSize, rect.width, rect.height);
+                gl.uniform2f(uCardPos, rect.left + rect.width / 2, rect.top + rect.height / 2);
+                gl.uniform2f(uResolution, canvas.width, canvas.height);
+                gl.uniform1f(uSeed, Math.random() * 100.0);
+
+                // Hide original card
+                cardElement.classList.add('is-burning');
+
+                requestAnimationFrame(animate);
+            });
+        }
+
+        function animate() {
+            if (!isBurning) return;
+
+            progress += 0.015;
+            if (progress > 1.2) {
+                isBurning = false;
+                // Keep the card hidden or remove it
+                return;
+            }
+
+            gl.clearColor(0, 0, 0, 0);
+            gl.clear(gl.COLOR_BUFFER_BIT);
+
+            gl.uniform1f(uProgress, progress);
+            gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+            requestAnimationFrame(animate);
+        }
+
+        // Add click listeners to cards
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.style.cursor = 'pointer';
+            card.addEventListener('click', () => burnCard(card));
+        });
+    </script>
+</body>
+
+</html>
